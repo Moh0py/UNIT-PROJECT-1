@@ -1,4 +1,5 @@
-import time, sys
+import time
+import sys
 
 def simulate_arrival(distance: int):
     print("\nSimulating taxi arrival...")
@@ -8,4 +9,4 @@ def simulate_arrival(distance: int):
         sys.stdout.flush()
         time.sleep(1)
         progress += 1
-    print("✅ Taxi has arrived!\n")
+    print()

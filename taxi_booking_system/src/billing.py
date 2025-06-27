@@ -1,10 +1,4 @@
-# def add_vat(cost: int) -> int:
-#     vat = cost * 0.15
-#     return round(cost + vat, 2)
-
-
 def calculate_fare(distance: int, rate: int = 2) -> int:
-
     return distance * rate
 
 def print_receipt(user: dict, ride: dict):
@@ -14,4 +8,4 @@ def print_receipt(user: dict, ride: dict):
     print(f"From → To:   {ride['origin']} → {ride['destination']}")
     print(f"Distance:    {ride['distance']} km")
     print(f"Total Cost:  {cost} SAR")
-    print("----------------\n")
+    print()

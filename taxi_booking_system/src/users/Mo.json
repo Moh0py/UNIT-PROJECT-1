@@ -1,0 +1,10 @@
+{
+  "username": "Mo",
+  "password": "123",
+  "phone": "0547566309",
+  "email": "hfgfdfg@gfghf.com",
+  "driver": false,
+  "rides": [
+    "Mo_20250627215055.json"
+  ]
+}
