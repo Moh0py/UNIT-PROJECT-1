@@ -1,0 +1,15 @@
+{
+  "user": "k",
+  "origin": "k",
+  "destination": "k",
+  "origin_coordinates": {
+    "latitude": 49.790952,
+    "longitude": 20.3793521
+  },
+  "destination_coordinates": {
+    "latitude": 49.790952,
+    "longitude": 20.3793521
+  },
+  "timestamp": "20250629105051",
+  "status": "booked"
+}

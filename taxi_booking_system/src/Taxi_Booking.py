@@ -6,6 +6,9 @@ from booking import book_ride
 from simulation import simulate_arrival
 from billing import print_receipt
 from rating import rate_ride
+from geopy.geocoders import Nominatim
+
+geolocator = Nominatim(user_agent="myGeocoder")
 
 def main():
     ensure_data_dirs()

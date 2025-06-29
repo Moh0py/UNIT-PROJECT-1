@@ -1,0 +1,15 @@
+{
+  "user": "m",
+  "origin": "jazan",
+  "destination": "makah",
+  "origin_coordinates": {
+    "latitude": 17.333333,
+    "longitude": 42.666667
+  },
+  "destination_coordinates": {
+    "latitude": 48.70161,
+    "longitude": -122.9404244
+  },
+  "timestamp": "20250629123516",
+  "status": "booked"
+}

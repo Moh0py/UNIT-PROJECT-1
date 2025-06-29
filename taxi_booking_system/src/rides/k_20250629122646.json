@@ -1,0 +1,15 @@
+{
+  "user": "k",
+  "origin": "jazan",
+  "destination": "jazan",
+  "origin_coordinates": {
+    "latitude": 17.333333,
+    "longitude": 42.666667
+  },
+  "destination_coordinates": {
+    "latitude": 17.333333,
+    "longitude": 42.666667
+  },
+  "timestamp": "20250629122646",
+  "status": "booked"
+}

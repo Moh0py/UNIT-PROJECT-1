@@ -18,14 +18,19 @@ def register():
     while True:
         phone = input("Enter phone (10 digits): ").strip()
         if not (phone.isdigit() and len(phone) == 10):
-            continue
-        break
-
+           
+         continue
+        break 
+            
     while True:
 
-        email = input("Enter email: ").strip()
-        if not email:
+        email = input("Enter email (gmail.com or mail.com): ").strip()
+        if not email.endswith("@gmail.com"):
+            
+            print( "Invalid email format. Please enter a valid email address.")
             continue
+
+        print(f"Welcome :{username} To Taxi Booking !")
         break
     
     data = {
