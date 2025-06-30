@@ -1,87 +1,98 @@
-# auth.py
-import os
-import json
-from utils import USERS_DIR, get_user_path, save_user, print_car
+from utils import load_user, save_user
 
-def register():
-    print_car()
+def create_admin_account():
+    """Ensure an admin user exists."""
+    if not load_user("admin"):
+        admin = {
+            'username': "admin",
+            'password': "admin",
+            'name': "Admin User",
+            'email': "admin@example.com",
+            'phone': "0000000000",
+            'role': "admin",
+            'rides': [],
+            'complaints': [],
+            'category': None
+        }
+        save_user(admin)
+        print("✅ Admin account created.")
+       
+
+def register_user():
+    """Interactively register a new standard user."""
     while True:
-        username = input("Enter new username: ").strip()
-        if not username or os.path.exists(get_user_path(username)):
-            continue
-        break
-    while True:
-        password = input("Enter password: ").strip()
-        if not password:
-            continue
-        break
-    while True:
-        phone = input("Enter phone (10 digits): ").strip()
-        if not (phone.isdigit() and len(phone) == 10):
-           
-         continue
-        break 
+        username = input("Choose username: ")
+        if load_user(username):
+            print("⚠️ Username already exists.")
             
-    while True:
-
-        email = input("Enter email (gmail.com or mail.com): ").strip()
+            continue
+        break
+    while True:    
+        email = input("Email (@gmail.com): ")
         if not email.endswith("@gmail.com"):
-            
-            print( "Invalid email format. Please enter a valid email address.")
+            print("⚠️ Only Gmail addresses are allowed.")
             continue
-
-        print(f"Welcome :{username} To Taxi Booking !")
         break
-    
-    data = {
-        "username": username,
-        "password": password,
-        "phone": phone,
-        "email": email,
-        "driver": False,
-        "rides": []
-    }
-    save_user(data)
 
-def login():
-    print_car()
-    if not os.listdir(USERS_DIR):
+    while True:
+        phone = input("Phone (10 digits): ")
+        if not (phone.isdigit() and len(phone) == 10):
+            print("⚠️ Phone number must be exactly 10 digits.")
+            continue
+        
+        name = input("Full name: ")
+        password = input("Password: ")
+
+        user = {
+            'username': username,
+            'email': email,
+            'phone': phone,
+            'name': name,
+            'password': password,
+            'role': 'user',
+            'rides': [],
+            'complaints': [],
+            'category': 'standard'
+        }
+        save_user(user)
+        print("✅ Registration successful.")
+        break
+
+def login_user():
+    """Interactively authenticate a user and return their data."""
+    username = input("Username: ")
+    password = input("Password: ")
+    user = load_user(username)
+    if not user or user['password'] != password:
+        print("❌ Invalid credentials.")
         return None
-    while True:
-        username = input("Enter your username: ").strip()
-        path = get_user_path(username)
-        if os.path.isfile(path):
-            break
-    with open(path) as f:
-        user = json.load(f)
-    while True:
-        print_car()
-        password = input("Enter your password: ").strip()
-        if user.get("password") == password:
-            break
+    print(f"👋 Welcome, {user['name']}!")
     return user
 
-def show_user_dashboard(user: dict):
-    print_car()
-    print(f"Username: {user['username']}")
-    print(f"Phone:    {user['phone']}")
-    print(f"Email:    {user['email']}")
-    print(f"Driver:   {user.get('driver')}")
-    print(f"Rides:    {len(user.get('rides', []))}\n")
+def edit_profile(user):
+    """Allow the logged-in user to update their own profile."""
+    if not user:
+        print("❌ No user provided.")
+        return
 
-def edit_profile(user: dict):
-    print_car()
-    while True:
-        phone = input("Enter new phone (10 digits): ").strip()
-        if not (phone.isdigit() and len(phone) == 10):
-            continue
-        break
-    while True:
-        print_car()
-        email = input("Enter new email: ").strip()
-        if not email:
-            continue
-        break
-    user['phone'] = phone
-    user['email'] = email
+    print("\n--- Edit Profile ---")
+    new_username = input(f"New username (current: {user['username']}) or Enter to skip: ")
+    new_email    = input(f"New email (current: {user['email']}) or Enter to skip: ")
+    new_phone    = input(f"New phone (current: {user['phone']}) or Enter to skip: ")
+    new_name     = input(f"New full name (current: {user['name']}) or Enter to skip: ")
+    new_password = input("New password or Enter to skip: ")
+
+    if new_username:
+     user['username'] = new_username
+
+    if new_email:
+        user['email'] = new_email
+    if new_phone:
+        user['phone'] = new_phone
+    if new_name:
+        user['name'] = new_name
+    if new_password:
+        user['password'] = new_password
+
     save_user(user)
+    print("✅ Profile updated.")

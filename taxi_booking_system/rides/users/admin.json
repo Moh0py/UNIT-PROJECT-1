@@ -1,0 +1,11 @@
+{
+  "username": "admin",
+  "password": "admin",
+  "name": "Admin User",
+  "email": "admin@example.com",
+  "phone": "0000000000",
+  "role": "admin",
+  "rides": [],
+  "complaints": [],
+  "category": null
+}

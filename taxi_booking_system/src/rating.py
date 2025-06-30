@@ -1,17 +1,24 @@
-import os
-import json
-from utils import RIDES_DIR
+from utils import load_json, save_json, RIDES_FILE
+def rate_ride(ride_id):
+    rides = load_json(RIDES_FILE)
+    if not rides:
+        print("🚘 No rides available to rate.")
+        return
 
-def rate_ride(filename: str):
-    path = os.path.join(RIDES_DIR, filename)
-    with open(path) as f:
-        ride = json.load(f)
-    while True:
-        rating = input("Enter rating (1-5): ").strip()
-        if rating in ('1','2','3','4','5'):
-            print("Thank you for your rating.")
-            ride['rating'] = int(rating)
-            break
-    with open(path, 'w') as f:
-        json.dump(ride, f, indent=2)
-    print(f"Rating {rating} saved for ride {filename}")
+    for ride in rides:
+        if ride['id'] == ride_id:
+            while True:
+                score_str = input(f"Enter rating for {ride_id} (1-5): ").strip()
+                #try:
+                score = int(score_str)
+                if 1 <= score <= 5:
+                        ride['rating'] = score
+                        save_json(RIDES_FILE, rides)
+                        print(f"✅ Ride {ride_id} rated {score}.")
+                        break
+    #                 else:
+    #                     raise ValueError
+    #             except ValueError:
+    #                 print("❌ Invalid score. Enter a number between 1 and 5.")
+    #         return
+    # print(f"❌ Ride {ride_id} not found.")

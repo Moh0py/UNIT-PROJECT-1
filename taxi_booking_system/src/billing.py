@@ -1,11 +1,18 @@
-def calculate_fare(distance: int, rate: int = 2) -> int:
-    return distance * rate + (0.15 * distance)
+from utils import calculate_distance, RATES
 
-def print_receipt(user: dict, ride: dict):
-    cost = calculate_fare(ride['distance'])
-    print("--- Receipt ---")
-    print(f"User:        {user['username']}")
-    print(f"From → To:   {ride['origin']} → {ride['destination']}")
-    print(f"Distance:    {ride['distance']} km")
-    print(f"Total Cost:  {cost} SAR")
-    print()
+
+def calculate_fare():
+    """Compute fare without booking"""
+    origin = input("Origin address: ")
+    destination = input("Destination address: ")
+    print("Categories:", ", ".join(RATES.keys()))
+    category = input("Choose category: ")
+    if category not in RATES:
+        print("❌  Invalid category.")
+        return
+    dist = calculate_distance(origin, destination)
+    if dist is None:
+        print("❌  Invalid addresses.")
+        return
+    fare = dist * RATES[category]
+    print(f"🛣️  Distance: {dist:.2f} km, 💵 Fare: {fare:.2f} SAR")

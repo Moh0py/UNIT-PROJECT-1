@@ -1,0 +1,32 @@
+[
+  {
+    "id": "1",
+    "plate": "AAA 999",
+    "category": "sedan Accord",
+    "status": "ready"
+  },
+  {
+    "id": "2",
+    "plate": "XYZ 789",
+    "category": "SUV",
+    "status": "busy"
+  },
+  {
+    "id": "3",
+    "plate": "MMM 444",
+    "category": "BMW X5",
+    "status": "ready"
+  },
+  {
+    "id": "4",
+    "plate": "PQR 123",
+    "category": "sedan Camry",
+    "status": "ready"
+  },
+  {
+    "id": "5",
+    "plate": "LMN 6118",
+    "category": "sedan Accent",
+    "status": "ready"
+  }
+]

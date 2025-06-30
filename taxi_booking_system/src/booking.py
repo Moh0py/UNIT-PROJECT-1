@@ -1,52 +1,97 @@
-import os
-import json
+# booking.py
+from utils import (
+    calculate_distance,
+    estimate_time,
+    load_json,
+    save_json,
+    RIDES_FILE,
+    RATES,
+    CARS_FILE,
+    save_user
+)
 from datetime import datetime
-from geopy.geocoders import Nominatim
-from geopy.distance import geodesic  # استيراد دالة لحساب المسافة
-from utils import RIDES_DIR, save_user
+import time
+import random
 
-geolocator = Nominatim(user_agent="myGeocoder")
+def estimate_ride(user):
+    origin = input("Pickup location: ")
+    destination = input("Destination: ")
+    distance = calculate_distance(origin, destination)
+    if distance is None:
+        print("❌ Could not calculate distance.")
+        return
 
-def book_ride(user: dict) -> str:
-    origin = input("Pickup location: ").strip()
-    destination = input("Destination: ").strip()
-    
-    origin_location = geolocator.geocode(origin)
-    destination_location = geolocator.geocode(destination)
-    
-    if not origin_location or not destination_location:
-        return "Error: One of the locations could not be found."
+    duration_minutes = estimate_time(distance)
+    rate = RATES[user['category']]
+    fare = distance * rate
+    print(f" 🛣️  Distance:          {distance:.2f} km")
+    print(f" ⏱️ Estimated time:     {duration_minutes:.0f} minutes")
+    print(f" 💰 Estimated fare:     {fare:.2f} SAR")
 
-    origin_lat = origin_location.latitude
-    origin_lon = origin_location.longitude
-    destination_lat = destination_location.latitude
-    destination_lon = destination_location.longitude
-    
-    # حساب المسافة بين نقطتي البداية والوجهة
-    origin_coords = (origin_lat, origin_lon)
-    destination_coords = (destination_lat, destination_lon)
-    distance = geodesic(origin_coords, destination_coords).km  # المسافة بالكيلومترات
-    
-    ts = datetime.now().strftime("%Y%m%d%H%M%S")
-    
+def book_ride(user):
+    origin      = input("Pickup location: ")
+    destination = input("Destination: ")
+    distance    = calculate_distance(origin, destination)
+    if distance is None:
+        print("❌ Could not calculate distance.")
+        return
+
+    duration_minutes = estimate_time(distance)
+    duration_hours   = duration_minutes / 60
+    rate             = RATES[user['category']]
+    fare             = distance * rate
+
+    # Load cars and find an available one in the chosen category
+    cars = load_json(CARS_FILE)
+    available = [c for c in cars if c['category'] == user['category'] and c['status'] == 'ready']
+    if not available:
+        print("❌ No available cars in your selected category.")
+        return
+
+    # Assign a random car
+    car = random.choice(available)
+    car['status'] = 'busy'
+    save_json(CARS_FILE, cars)
+
+    # Build ride record
+    ride_id = f"ride_{datetime.now():%Y%m%d%H%M%S}"
     ride = {
-        "user": user['username'],
-        "origin": origin,
-        "destination": destination,
-        "origin_coordinates": {"latitude": origin_lat, "longitude": origin_lon},
-        "destination_coordinates": {"latitude": destination_lat, "longitude": destination_lon},
-        "distance": distance,  # إضافة المسافة
-        "timestamp": ts,
-        "status": "booked"
+        'id': ride_id,
+        'user': user['username'],
+        'origin': origin,
+        'destination': destination,
+        'category': user['category'],
+        'distance_km': round(distance, 2),
+        'duration_minutes': round(duration_minutes, 1),
+        'duration_hours': round(duration_hours, 2),
+        'fare': round(fare, 2),
+        'driver': car['driver'],
+        'car_plate': car['plate'],
+        'timestamp': datetime.now().isoformat(),
+        'status': 'booked',
+        'rating': None
     }
+
+    # Save the ride
+    rides = load_json(RIDES_FILE)
+    rides.append(ride)
+    save_json(RIDES_FILE, rides)
+
     
-    filename = f"{user['username']}_{ts}.json"
-    path = os.path.join(RIDES_DIR, filename)
-    
-    with open(path, 'w') as f:
-        json.dump(ride, f, indent=2)
-    
-    user.setdefault('rides', []).append(filename)
+    user.setdefault('rides', []).append(ride_id)
     save_user(user)
+
     
-    return filename
+    print(f"✅ Ride {ride_id} booked successfully!")
+    print(f"🚖 Driver: {car['driver']} | Plate: {car['plate']}")
+    print(f"🛣️ Distance: {ride['distance_km']} km | ⏱️ Time: {ride['duration_hours']} hrs | 💰 Fare: {ride['fare']} SAR")
+
+    # Taxi arrival animation
+    for i in range(20):
+        print(" " * i + "🚕", end="\r")
+        time.sleep(0.1)
+    print("🚕 Taxi has arrived!")
+
+    # Mark car as ready again
+    car['status'] = 'ready'
+    save_json(CARS_FILE, cars)

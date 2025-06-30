@@ -1,0 +1,68 @@
+[
+  {
+    "username": "admin",
+    "password": "admin",
+    "name": "Admin User",
+    "email": "admin@example.com",
+    "phone": "0000000000",
+    "role": "admin",
+    "rides": [],
+    "complaints": [],
+    "category": null
+  },
+  {
+    "username": "moh123",
+    "email": "moh@gmail.com",
+    "phone": "0547566912",
+    "name": "Mohammed Marah",
+    "password": "12345",
+    "role": "user",
+    "rides": [],
+    "complaints": [],
+    "category": "standard"
+  },
+  {
+    "username": "m9",
+    "email": "m9@gmail.com",
+    "phone": "0547566302",
+    "name": "m10",
+    "password": "123456",
+    "role": "user",
+    "rides": [],
+    "complaints": [],
+    "category": "medium"
+  },
+  {
+    "username": "m8",
+    "email": "mo8@gmail.com",
+    "phone": "054755654",
+    "name": "mohammed",
+    "password": "12345",
+    "role": "user",
+    "rides": [],
+    "complaints": [],
+    "category": "vip"
+  },
+  {
+    "username": "moh0",
+    "email": "mo@gmail.com",
+    "phone": "0547566309",
+    "name": "Mohammed jabbari",
+    "password": "12345",
+    "role": "user",
+    "rides": [],
+    "complaints": [],
+    "category": "standard"
+  },
+  {
+    "username": "moh1",
+    "email": "mo@gmail.com",
+    "phone": "0547566309",
+    "name": "Mohammed jabbari",
+    "password": "12345",
+    "role": "user",
+    "rides": [],
+    "complaints": [],
+    "category": "medium"
+  }
+]

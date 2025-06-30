@@ -1,89 +1,125 @@
 import os
-import json
-from utils import ensure_data_dirs, RIDES_DIR, print_car
-from auth import register, login, show_user_dashboard
-from booking import book_ride
-from simulation import simulate_arrival
-from billing import print_receipt
-from rating import rate_ride
-from geopy.geocoders import Nominatim
+from utils import ensure_dirs, load_json, save_json, COMPLAINTS_FILE
+import auth, booking, rating, admin
+from datetime import datetime
+from auth import create_admin_account
+from colorama import Fore
 
-geolocator = Nominatim(user_agent="myGeocoder")
+def handle_complaint(user):
+    driver = input("Driver username: ")
+    message = input("Complaint message: ")
+    complaints = load_json(COMPLAINTS_FILE)
+    cid = f"complaint_{datetime.now().strftime('%Y%m%d%H%M%S')}"
+    complaints.append({
+        'id': cid,
+        'from_user': user['username'],
+        'about_driver': driver,
+        'message': message,
+        'timestamp': datetime.now().isoformat(),
+        'status': 'open'
+    })
+    save_json(COMPLAINTS_FILE, complaints)
+    print(f"✅ Complaint {cid} submitted.")
 
-def main():
-    ensure_data_dirs()
-
+def select_taxi_category(user):
+    print("\nSelect Taxi Category:")
+    print()
+    print("1) standard")
+    print("2) medium")
+    print("3) vip")
     while True:
-        print_car()
-        choice = show_main_menu()
-        
-        if choice == "1":
-            print_car()
-            register()
-        elif choice == "2":
-            print_car()
-            user = login()
-            if user:
-                handle_logged_in_user(user)
-        elif choice == "3":
-            print_car()
-            print("Goodbye!")
+        cat = input("Enter choice: ").strip()
+        mapping = {'1':'standard','2':'medium','3':'vip'}
+        if cat in mapping:
+            user['category'] = mapping[cat]
+            print(f"✅ Selected category: {user['category']}")
             break
-        else:
-            print_car()
-            print("Invalid choice. Please choose 1, 2 or 3.")
-
-def show_main_menu():
-    print("Welcome to Taxi Booking System")
-    print("1. Register")
-    print("2. Login")
-    print("3. Exit")
-    return input("Choose an option: ").strip()
-
-def handle_logged_in_user(user):
-    while True:
-        print_car()
-        show_user_dashboard(user)
-        sub_choice = show_user_menu()
-
-        if sub_choice == "1":
-            book_and_process_ride(user)
-        elif sub_choice == "2":
-            view_rides(user)
-        elif sub_choice == "3":
-            print_car()
-            print("Logging out...\n")
-            break
-        else:
-            print_car()
-            print("Invalid choice. Please try again.")
-
-def show_user_menu():
-    print("1) Book a ride")
-    print("2) View my rides")
-    print("3) Logout")
-    return input("Choose an option: ").strip()
-
-def book_and_process_ride(user):
-    print_car()
-    ride_file = book_ride(user)
-    path = os.path.join(RIDES_DIR, ride_file)
-    with open(path) as f:
-        ride = json.load(f)
-
-    print_car()
-    simulate_arrival(ride["distance"])
-    print_receipt(user, ride)
-    rate_ride(ride_file)
+        print("❌ Invalid choice; select 1, 2, or 3.")
 
 def view_rides(user):
-    print_car()
-    if not user.get("rides"):
-        print("No rides yet.")
+    if user.get('rides'):
+        for r in user['rides']:
+            print(f"- {r}")
     else:
-        print("\nYour Rides:")
-        for fn in user["rides"]:
-            print("-", fn)
+        print("🚘 No rides found.")
+
+def rate_rides(user):
+    if user.get('rides'):
+        for r in user['rides']:
+            rating.rate_ride(r)
+    else:
+        print("🚘 No rides to rate.")
+
+def user_menu(user):
+    select_taxi_category(user)
+    while True:
+        print(f"\nLogged in as: {user['username']} ({user['category']})")
+        print("=== User Menu ===")
+        print()
+        print(Fore.CYAN + "1) Estimate Ride")
+        print(Fore.CYAN + "2) Book Ride")
+        print(Fore.CYAN + "3) View My Rides")
+        print(Fore.CYAN + "4) Rate a Ride")
+        print(Fore.CYAN + "5) Complain about Driver")
+        print(Fore.CYAN + "6) Edit Profile")
+        print(Fore.CYAN + "7) Logout")
+        cmd = input("Option: ").strip()
+
+        if cmd == '1':
+            booking.estimate_ride(user)
+        elif cmd == '2':
+            booking.book_ride(user)
+        elif cmd == '3':
+            view_rides(user)
+        elif cmd == '4':
+            rate_rides(user)
+        elif cmd == '5':
+            handle_complaint(user)
+        elif cmd == '6':
+            auth.edit_profile(user)
+        elif cmd == '7':
+            auth.save_user(user)
+            break
+        else:
+            print("❌ Invalid option.")
+
+def main():
+    ensure_dirs()
+    create_admin_account()
+
+    while True:
+        print(Fore.YELLOW + "\n=== Welcome to Taxi Booking System ===")
+        print()
+        print(Fore.WHITE +    "Please choose an option:")
+        print()
+        print(Fore.YELLOW + "1) Register")
+        print(Fore.YELLOW + "2) Login")
+        print(Fore.YELLOW + "3) Admin Login")
+        print(Fore.YELLOW + "4) View Available Cars")
+        print(Fore.YELLOW + "5) Quit")
+        choice = input("Enter choice: ").strip()
+
+        if choice == '1':
+            auth.register_user()
+        elif choice == '2':
+            user = auth.login_user()
+            if user:
+                user_menu(user)
+            else:
+                input("Press Enter to continue...")
+        elif choice == '3':
+            admin_user = auth.login_user()
+            if admin_user and admin_user.get('role')=='admin':
+                admin.admin_menu(admin_user)
+            else:
+                print("❌ Invalid admin credentials.")
+        elif choice == '4':
+            admin.view_cars()
+        elif choice == '5':
+            print("👋 Goodbye!")
+            break
+        else:
+            print("❌ Invalid option.")
 
 if __name__ == "__main__":
     main()
