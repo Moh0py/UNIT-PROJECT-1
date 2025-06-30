@@ -64,5 +64,38 @@
     "rides": [],
     "complaints": [],
     "category": "medium"
+  },
+  {
+    "username": "moh00",
+    "password": "123",
+    "name": "mohammed",
+    "email": "moh@gmail.com",
+    "phone": "0547566208",
+    "role": "passenger",
+    "rides": [],
+    "complaints": [],
+    "category": "vip"
+  },
+  {
+    "username": "moh12",
+    "password": "123",
+    "name": "m",
+    "email": "m",
+    "phone": "0547566309",
+    "role": "passenger",
+    "rides": [],
+    "complaints": [],
+    "category": "vip"
+  },
+  {
+    "username": "m1",
+    "password": "m1",
+    "name": "m1",
+    "email": "m1@gmail.com",
+    "phone": "0547566308",
+    "role": "passenger",
+    "rides": [],
+    "complaints": [],
+    "category": "vip"
   }
 ]

@@ -5,26 +5,26 @@ from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 
 # Base data directory
-DATA_DIR       = os.path.join(os.path.dirname(__file__), '..')
-USERS_FILE     = os.path.join(DATA_DIR, 'users.json')
-RIDES_DIR      = os.path.join(DATA_DIR, 'rides')
-RIDES_FILE     = os.path.join(RIDES_DIR, 'rides.json')
-COMPLAINTS_FILE= os.path.join(RIDES_DIR, 'complaints.json')
-CARS_FILE      = os.path.join(RIDES_DIR, 'cars.json')
+DATA_DIR        = os.path.join(os.path.dirname(__file__), '..')
+USERS_FILE      = os.path.join(DATA_DIR, 'users.json')
+RIDES_DIR       = os.path.join(DATA_DIR, 'rides')
+RIDES_FILE      = os.path.join(RIDES_DIR, 'rides.json')
+COMPLAINTS_FILE = os.path.join(RIDES_DIR, 'complaints.json')
+CARS_FILE       = os.path.join(RIDES_DIR, 'cars.json')
 
 CATEGORIES = ['standard', 'medium', 'vip']
 RATES      = {'standard': 1.5, 'medium': 2.0, 'vip': 3.5}
 
-geolocator = Nominatim(user_agent="taxi_booking_system")
+# Initialize geolocator
+geolocator = Nominatim(user_agent="taxi_booking_app")
 
 def ensure_dirs():
-    """Create all needed files/directories if missing."""
     os.makedirs(RIDES_DIR, exist_ok=True)
     for path, default in [
-        (USERS_FILE,      []),
-        (RIDES_FILE,      []),
+        (USERS_FILE, []),
+        (RIDES_FILE, []),
         (COMPLAINTS_FILE, []),
-        (CARS_FILE,       [])
+        (CARS_FILE, [])
     ]:
         if not os.path.exists(path):
             with open(path, 'w', encoding='utf-8') as f:
@@ -40,18 +40,15 @@ def save_json(path, data):
 
 # — Users API —
 def load_users():
-    """Return the list of all users."""
     return load_json(USERS_FILE)
 
 def load_user(username):
-    """Return a single user dict, or None if not found."""
     for u in load_users():
         if u['username'] == username:
             return u
     return None
 
 def save_user(user):
-    """Insert or update a user in users.json."""
     users = load_users()
     for i, u in enumerate(users):
         if u['username'] == user['username']:

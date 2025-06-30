@@ -1,4 +1,3 @@
-# booking.py
 from utils import (
     calculate_distance,
     estimate_time,
@@ -12,8 +11,12 @@ from utils import (
 from datetime import datetime
 import time
 import random
+from geopy.geocoders import Nominatim
 
 def estimate_ride(user):
+    if not user.get('category') or user['category'] not in RATES:
+        print("⚠️ Please select your taxi category first!")
+        return
     origin = input("Pickup location: ")
     destination = input("Destination: ")
     distance = calculate_distance(origin, destination)
@@ -27,33 +30,41 @@ def estimate_ride(user):
     print(f" 🛣️  Distance:          {distance:.2f} km")
     print(f" ⏱️ Estimated time:     {duration_minutes:.0f} minutes")
     print(f" 💰 Estimated fare:     {fare:.2f} SAR")
+    print(f" 🚗 Category:          {user['category']}")
 
 def book_ride(user):
-    origin      = input("Pickup location: ")
+    
+    if not user.get('category') or user['category'] not in RATES:
+        print("⚠️ Please select your taxi category first!")
+        return
+
+    
+    origin = input("Pickup location: ")
     destination = input("Destination: ")
-    distance    = calculate_distance(origin, destination)
+    distance = calculate_distance(origin, destination)
     if distance is None:
         print("❌ Could not calculate distance.")
         return
 
+    
     duration_minutes = estimate_time(distance)
-    duration_hours   = duration_minutes / 60
-    rate             = RATES[user['category']]
-    fare             = distance * rate
+    duration_hours = duration_minutes / 60
+    rate = RATES[user['category']]
+    fare = distance * rate
 
-    # Load cars and find an available one in the chosen category
+    
     cars = load_json(CARS_FILE)
     available = [c for c in cars if c['category'] == user['category'] and c['status'] == 'ready']
     if not available:
-        print("❌ No available cars in your selected category.")
+        print("❌ No available cars in your category.")
         return
 
-    # Assign a random car
+    
     car = random.choice(available)
     car['status'] = 'busy'
     save_json(CARS_FILE, cars)
 
-    # Build ride record
+    
     ride_id = f"ride_{datetime.now():%Y%m%d%H%M%S}"
     ride = {
         'id': ride_id,
@@ -72,26 +83,29 @@ def book_ride(user):
         'rating': None
     }
 
-    # Save the ride
+    
     rides = load_json(RIDES_FILE)
     rides.append(ride)
     save_json(RIDES_FILE, rides)
 
-    
+   
     user.setdefault('rides', []).append(ride_id)
     save_user(user)
 
     
-    print(f"✅ Ride {ride_id} booked successfully!")
+    print(f"✅ Ride {ride_id} booked!")
     print(f"🚖 Driver: {car['driver']} | Plate: {car['plate']}")
-    print(f"🛣️ Distance: {ride['distance_km']} km | ⏱️ Time: {ride['duration_hours']} hrs | 💰 Fare: {ride['fare']} SAR")
+    print(f"🛣️ {ride['distance_km']} km | ⏱️ {ride['duration_hours']} hrs | 💰 {ride['fare']} SAR")
 
-    # Taxi arrival animation
+    
     for i in range(20):
         print(" " * i + "🚕", end="\r")
         time.sleep(0.1)
     print("🚕 Taxi has arrived!")
 
-    # Mark car as ready again
-    car['status'] = 'ready'
+    
+    for c in cars:
+        if c['id'] == car['id']:
+            c['status'] = 'ready'
+            break
     save_json(CARS_FILE, cars)
