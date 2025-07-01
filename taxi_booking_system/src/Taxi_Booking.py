@@ -1,105 +1,50 @@
-# Taxi_Booking.py
-import os
-from utils import ensure_dirs, load_json, save_json, COMPLAINTS_FILE, RIDES_FILE
-import auth, booking, rating, admin
-from datetime import datetime
-from auth import create_admin_account
-from colorama import Fore
-from geopy.geocoders import Nominatim
+import colorama
+from colorama import Fore, Style
+from utils import ensure_data_files
+from auth import register_user, login_user, find_user, save_user
+from booking import select_category, estimate_ride, book_ride, view_rides
+from rating import rate_ride
+from complaint import file_complaint
+from admin import admin_menu
 
-def handle_complaint(user):
-    driver  = input("Driver username: ").strip()
-    message = input("Complaint message: ").strip()
-    complaints = load_json(COMPLAINTS_FILE)
-    cid = f"complaint_{datetime.now().strftime('%Y%m%d%H%M%S')}"
-    complaints.append({
-        'id': cid,
-        'from_user': user['username'],
-        'about_driver': driver,
-        'message': message,
-        'status': 'new'
-    })
-    save_json(COMPLAINTS_FILE, complaints)
-    print(f"✅ Complaint {cid} submitted.")
+colorama.init(autoreset=True)
 
-def select_taxi_category(user):
-    print("🚗 Categories:")
-    print("1. standard\n2. medium\n3. vip")
-    choice = input("Enter number: ").strip()
-    cat_map = {'1': 'standard', '2': 'medium', '3': 'vip'}
-    user['category'] = cat_map.get(choice, 'standard')
-    from utils import save_user
-    save_user(user)
-    print(f"✅ Category set to {user['category']}.")
+def print_box(title, opts, clr):
+    w=max(len(title),*(len(o) for o in opts))+4
+    print(clr+"╔"+"═"*w+"╗")
+    print(clr+f"║ {title.center(w-2)} ║")
+    print(clr+"╠"+"═"*w+"╣")
+    for o in opts: print(clr+f"║ {o.ljust(w-2)} ║")
+    print(clr+"╚"+"═"*w+"╝"+Style.RESET_ALL)
 
-def view_rides(user):
-    rides = load_json(RIDES_FILE)
-    user_rides = [r for r in rides if r['user'] == user['username']]
-    if not user_rides:
-        print("🚘 No rides.")
-        return
-    for r in user_rides:
-        print(f"{r['id']}: {r['origin']} → {r['destination']} | {r['fare']} SAR | {r['status']}")
-
-def rate_rides(user):
-    view_rides(user)
-    ride_id = input("Ride ID to rate: ").strip()
-    rating.rate_ride(ride_id)
 
 def user_menu(user):
-    print(f"\n👤 {user['username']} ({user['role']})")
+    opts=["1.select category","2.estimate","3.book","4.view rides","5.rate","6.complaint","7.edit","8.logout"]
     while True:
-        print(Fore.YELLOW,"\n---- User Menu ----")
-        print(Fore.WHITE,"1.Estimate ")
-        print(Fore.WHITE,"2.Book ")
-        print(Fore.WHITE,"3.Set Category ")
-        print(Fore.WHITE,"4.My Rides")
-        print(Fore.WHITE,"5.Rate Ride ")
-        print(Fore.WHITE,"6.Complaint ")
-        print(Fore.WHITE,"7.Edit Profile ")
-        print(Fore.WHITE,"8.Logout")
-        choice = input("Choice: ").strip()
-        if choice == '1': booking.estimate_ride(user)
-        elif choice == '2': booking.book_ride(user)
-        elif choice == '3': select_taxi_category(user)
-        elif choice == '4': view_rides(user)
-        elif choice == '5': rate_rides(user)
-        elif choice == '6': handle_complaint(user)
-        elif choice == '7': auth.edit_profile(user)
-        elif choice == '8':
-            print("👋 Bye.")
-            break
-        else:
-            print("❌ Invalid.")
+        print_box("User Menu",opts,Fore.YELLOW)
+        c=input(Fore.CYAN+"Choice:"+Style.RESET_ALL).strip()
+        if c=='1': select_category(user)
+        elif c=='2': estimate_ride(user)
+        elif c=='3': book_ride(user)
+        elif c=='4': view_rides(user)
+        elif c=='5': rate_ride(user)
+        elif c=='6': file_complaint(user)
+        elif c=='7': from auth import edit_profile; edit_profile(user)
+        elif c=='8': break
+
 
 def main():
-    ensure_dirs()
-    auth.create_admin_account()
+    ensure_data_files()
+    if not find_user('admin'):
+        save_user({'username':'admin','password':'admin','role':'admin','category':None,'rides':[],'complaints':[]})
+    opts=["1.register","2.login","3.admin login","4.exit"]
     while True:
-        print(Fore.YELLOW + "\n=== Taxi Booking ===")
-        print()
-        print(Fore.WHITE + "1.Register")
-        print(Fore.WHITE + "2.Login")
-        print(Fore.WHITE + "3.Admin Login")
-        print(Fore.WHITE + "4.Exit")
-        choice = input("Choice: ").strip()
-        if choice == '1':
-            u = auth.register_user()
-            user_menu(u)
-        elif choice == '2':
-            u = auth.login_user()
-            if u: user_menu(u)
-        elif choice == '3':
-            a = auth.login_user()
-            if a and a.get('role')=='admin':
-                admin.admin_menu(a)
-            else:
-                print("❌ Invalid admin.")
-        elif choice == '4':
-            print("👋 Exiting.")
-            break
-        else:
-            print("❌ Invalid.")
+        print_box("Taxi Booking System",opts,Fore.CYAN)
+        c=input(Fore.CYAN+"Choice:"+Style.RESET_ALL).strip()
+        if c=='1': user_menu(register_user())
+        elif c=='2': u=login_user(); user_menu(u) if u and u['role']!='admin' else print("Denied")
+        elif c=='3': u=login_user(); admin_menu() if u and u['role']=='admin' else print("Denied")
+        elif c=='4': print("Goodbye"); break
 
-if __name__ == "__main__":
+if __name__=='__main__':
     main()

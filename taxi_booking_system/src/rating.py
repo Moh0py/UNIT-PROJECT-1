@@ -1,22 +1,34 @@
-# rating.py
+from booking import view_rides
 from utils import load_json, save_json, RIDES_FILE
 
-def rate_ride(ride_id):
+def rate_ride(user):
+    
+    view_rides(user)
+
+    
+    ride_id = input("Enter ride ID to rate: ").strip()
+    if not ride_id:
+        print("❌ No ride ID entered.")
+        return
+
+    
     rides = load_json(RIDES_FILE)
-    for ride in rides:
-        if ride['id'] == ride_id:
-            while True:
-                score_str = input(f"Enter rating for {ride_id} (1-5): ").strip()
-                try:
-                    score = int(score_str)
-                    if 1 <= score <= 5:
-                        ride['rating'] = score
-                        save_json(RIDES_FILE, rides)
-                        print(f"✅ Ride {ride_id} rated {score}.")
-                        return
-                    else:
-                        raise ValueError
-                except ValueError:
-                    print("❌ Invalid score. Enter 1–5.")
+    
+    for r in rides:
+        if r['id'] == ride_id and r['user'] == user['username']:
+            
+            try:
+                score = int(input("Enter rating (1-5): ").strip())
+            except ValueError:
+                print("❌ Invalid input; please enter a number.")
+                return
+            if score < 1 or score > 5:
+                print("❌ Rating must be between 1 and 5.")
+                return
+            
+            r['rating'] = score
+            save_json(RIDES_FILE, rides)
+            print("✅ Thank you for your rating!")
             return
-    print("❌ Ride not found.")
+
+    print("❌ Ride not found or not owned by you.")

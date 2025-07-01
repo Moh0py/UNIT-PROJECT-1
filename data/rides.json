@@ -1,0 +1,54 @@
+[
+  {
+    "id": "ride_20250701034810",
+    "user": "moh",
+    "origin": "jazan",
+    "destination": "riyadh",
+    "category": "vip",
+    "distance": 618.28,
+    "fare": 2163.98,
+    "status": "booked",
+    "rating": null,
+    "timestamp": "2025-07-01T03:48:10.573653"
+  },
+  {
+    "id": "ride_20250701043943",
+    "user": "moh5",
+    "driver": "moh1",
+    "origin": "jazan",
+    "destination": "jazan",
+    "category": "vip",
+    "distance": 0.0,
+    "fare": 0.0,
+    "status": "booked",
+    "rating": null,
+    "timestamp": "2025-07-01T04:39:43.260034"
+  },
+  {
+    "id": "ride_20250701050457",
+    "user": "moh9",
+    "driver": "moh6",
+    "origin": "jazan",
+    "destination": "riyadh",
+    "category": "vip",
+    "distance": 6183.73,
+    "fare": 21643.055,
+    "status": "booked",
+    "rating": null,
+    "timestamp": "2025-07-01T05:04:57.230610"
+  },
+  {
+    "id": "ride_20250701052229",
+    "user": "moh9",
+    "driver": "moh6",
+    "origin": "jazan",
+    "destination": "jazan",
+    "category": "medium",
+    "distance": 0.0,
+    "fare": 0.0,
+    "payment_method": "cash",
+    "status": "booked",
+    "rating": null,
+    "timestamp": "2025-07-01T05:22:37.579883"
+  }
+]

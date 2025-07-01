@@ -1,78 +1,62 @@
+from utils import load_json, save_json, USERS_FILE, DRIVERS_FILE
 
-from utils import load_user, load_users, save_user
 
-def create_admin_account():
+def load_passengers(): return load_json(USERS_FILE)
 
-    admin_user = load_user('admin')
-    if not admin_user:
-        default = {
-            'username': 'admin',
-            'password': 'admin',
-            'name': 'Administrator',
-            'email': 'admin@example.com',
-            'phone': '',
-            'role': 'admin',
-            'rides': [],
-            'complaints': [],
-            'category': None
-        }
-        save_user(default)
-        print("✅ Default admin account created (admin / admin123).")
+def load_drivers():   return load_json(DRIVERS_FILE)
 
-def register_user():
-    print("📝 Register")
-    while True:
-        username = input("Username: ").strip()
-        if load_user(username):
-            print("❌ Username already exists.")
-        else:
-            break
-    password = input("Password: ").strip()
-    name     = input("Full name: ").strip()
-    email    = input("Email: ").strip()
-    phone    = input("Phone: ").strip()
-    role     = input("Role (passenger/driver): ").strip().lower()
-    if role not in ['passenger', 'driver']:
-        role = 'passenger'
-    user = {
-        'username': username,
-        'password': password,
-        'name': name,
-        'email': email,
-        'phone': phone,
-        'role': role,
-        'rides': [],
-        'complaints': [],
-        'category': None
-    }
-    save_user(user)
-    print("✅ Registration successful.")
-    return user
-
-def login_user():
-    print("🔑 Login")
-    username = input("Username: ").strip()
-    password = input("Password: ").strip()
-    user = load_user(username)
-    if user and user['password'] == password:
-        print(f"✅ Welcome, {user['name']}!")
-        return user
-    print("❌ Invalid credentials.")
+def find_user(username):
+    """Search passengers+drivers."""
+    for u in load_passengers() + load_drivers():
+        if u['username'] == username:
+            return u
     return None
 
+
+def save_user(user):
+    """Save to passengers.json or drivers.json."""
+    target = DRIVERS_FILE if user['role']=='driver' else USERS_FILE
+    users = load_json(target)
+    for i,u in enumerate(users):
+        if u['username']==user['username']:
+            users[i]=user; break
+    else:
+        users.append(user)
+    save_json(target, users)
+
+
+def register_user():
+    print("Register new account:")
+    while True:
+        uname=input("Username: ").strip()
+        if find_user(uname): print("Already exists.")
+        else: break
+    pwd=input("Password: ").strip()
+    role=input("Role (passenger/driver): ").strip().lower()
+    if role not in ('passenger','driver'): role='passenger'
+    user={'username':uname,'password':pwd,'role':role,'category':None,'rides':[],'complaints':[]}
+    save_user(user); print("Registration successful.")
+    return user
+
+
+def login_user():
+    print("Login:")
+    uname=input("Username: ").strip()
+    pwd=input("Password: ").strip()
+    user=find_user(uname)
+    if user and user['password']==pwd:
+        print(f"Welcome, {uname}!"); return user
+    print("Invalid credentials.")
+    return None
+
+
 def edit_profile(user):
-    print("✍️ Edit Profile")
-    new_email    = input(f"New email (current: {user['email']}) or Enter to skip: ").strip()
-    new_phone    = input(f"New phone (current: {user['phone']}) or Enter to skip: ").strip()
-    new_name     = input(f"New full name (current: {user['name']}) or Enter to skip: ").strip()
-    new_password = input("New password or Enter to skip: ").strip()
-    if new_email:
-        user['email'] = new_email
-    if new_phone:
-        user['phone'] = new_phone
-    if new_name:
-        user['name'] = new_name
-    if new_password:
-        user['password'] = new_password
-    save_user(user)
-    print("✅ Profile updated.")
+    print("Edit Profile:")
+    new=input("New password (Enter to skip): ").strip()
+    if new:
+        user['password']=new; save_user(user); print("Password updated.")
+    else: print("No changes made.")
+    new=input("New username (Enter to skip): ").strip()
+    if new:
+        user['username']=new; save_user(user); print("Username updated.")
+    else: print("No changes made.")

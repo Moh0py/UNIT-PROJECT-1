@@ -1,0 +1,84 @@
+[
+  {
+    "username": "admin",
+    "password": "admin",
+    "role": "admin",
+    "category": null,
+    "rides": [],
+    "complaints": []
+  },
+  {
+    "username": "moo",
+    "password": "moo",
+    "role": "passenger",
+    "category": "standard",
+    "rides": [
+      "ride_20250630225605"
+    ],
+    "complaints": []
+  },
+  {
+    "username": "moh",
+    "password": "moh1",
+    "role": "driver",
+    "category": "vip",
+    "rides": [
+      "ride_20250701034810",
+      "ride_20250701042202"
+    ],
+    "complaints": []
+  },
+  {
+    "username": "moh1",
+    "password": "moh1",
+    "role": "driver",
+    "category": "vip",
+    "rides": [],
+    "complaints": []
+  },
+  {
+    "username": "mo1",
+    "password": "mo1",
+    "role": "passenger",
+    "category": "medium",
+    "rides": [],
+    "complaints": []
+  },
+  {
+    "username": "moh5",
+    "password": "moh5",
+    "role": "driver",
+    "category": "vip",
+    "rides": [
+      "ride_20250701043943"
+    ],
+    "complaints": []
+  },
+  {
+    "username": "moh9",
+    "password": "moh9",
+    "role": "passenger",
+    "category": "medium",
+    "rides": [
+      "ride_20250701050457",
+      "ride_20250701052229"
+    ],
+    "complaints": []
+  },
+  {
+    "username": "\u0629\u062e\u06272",
+    "password": "moh2",
+    "role": "passenger",
+    "category": null,
+    "rides": [],
+    "complaints": []
+  },
+  {
+    "username": "moh2",
+    "password": "moh2",
+    "role": "passenger",
+    "category": null,
+    "rides": [],
+    "complaints": []
+  }
+]

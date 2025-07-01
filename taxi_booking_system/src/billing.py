@@ -1,18 +1,11 @@
-from utils import calculate_distance, RATES
-
+from utils import calculate_distance, estimate_time, RATES
 
 def calculate_fare():
-    """Compute fare without booking"""
-    origin = input("Origin address: ")
-    destination = input("Destination address: ")
-    print("Categories:", ", ".join(RATES.keys()))
-    category = input("Choose category: ")
-    if category not in RATES:
-        print("❌  Invalid category.")
-        return
-    dist = calculate_distance(origin, destination)
-    if dist is None:
-        print("❌  Invalid addresses.")
-        return
-    fare = dist * RATES[category]
-    print(f"🛣️  Distance: {dist:.2f} km, 💵 Fare: {fare:.2f} SAR")
+    o=input("Pickup:")
+    d=input("Destination:")
+    print("Rates:",RATES)
+    cat=input("Category:")
+    dist=calculate_distance(o,d)
+    if dist is None: return
+    t=estimate_time(dist); fare=dist*RATES.get(cat,0)
+    print(f"{dist}km | {t}min | {fare:.2f}SAR")

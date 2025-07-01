@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "plate": "ABC123",
+    "category": "sedan",
+    "status": "busy"
+  },
+  {
+    "id": "2",
+    "plate": "XYZ789",
+    "category": "SUV",
+    "status": "busy"
+  },
+  {
+    "id": "3",
+    "plate": "LMN456",
+    "category": "hatchback",
+    "status": "available"
+  },
+  {
+    "id": "4",
+    "plate": "PQR321",
+    "category": "luxury",
+    "status": "available"
+  }
+]
