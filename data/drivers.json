@@ -57,5 +57,16 @@
     "rides": [],
     "complaints": [],
     "car": null
+  },
+  {
+    "username": "mp",
+    "password": "mp",
+    "role": "driver",
+    "category": "medium",
+    "rides": [
+      "ride_20250701223106",
+      "ride_20250701223137"
+    ],
+    "complaints": []
   }
 ]
