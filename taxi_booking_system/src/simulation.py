@@ -53,7 +53,7 @@ def simulate(screen, grid_points):
         for px, py in grid_points:
             screen.print_at('.', px, py)
         # Draw driver
-        screen.print_at('D', x, y)
+        screen.print_at('🚕', x, y)
         screen.print_at(f"Step {idx+1}/{len(grid_points)}", 2, h-1)
         screen.refresh()
         time.sleep(0.5)

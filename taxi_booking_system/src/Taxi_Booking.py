@@ -8,6 +8,7 @@ from complaint import file_complaint
 from admin import admin_menu
 from simulation import simulate_ascii_route  
 
+
 colorama.init(autoreset=True)
 
 
@@ -59,7 +60,7 @@ def user_menu(user):
         else:
             print("Invalid choice, try again.")
 
-
+        
 def main():
     ensure_data_files()
     # Ensure admin user exists

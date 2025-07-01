@@ -1,9 +1,40 @@
 # taxi_booking_system/src/booking.py
+import os
 import random
 import time
 from datetime import datetime
 from utils import calculate_distance, estimate_time, load_json, save_json, RIDES_FILE
 from auth import save_user, load_drivers
+
+
+CAR_ART = r"""
+      ______
+  ___//_||_\\___
+ / _          _ \\
+'(_)_        _(_)`
+   /_/      \\_\\
+"""
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def simulate_driver_arrival():
+    print("\\nLooking for a driver...")
+    time.sleep(2)
+    print("Driver is on the way...")
+    time.sleep(2)
+    print("Driver is outside waiting!")
+    time.sleep(1)
+
+def animate_driver(pickup, destination):
+    clear_screen()
+    print(f"🚕 The driver is moving with you from {pickup} to {destination}...")
+    for i in range(10):
+        print("\"🚕\" + \"-\" * " + str(i))
+        time.sleep(0.3)
+        clear_screen()
+    print("\"You have arrived safely!\"")
+    simulate_driver_arrival()
 
 PAYMENT_METHODS = ['cash', 'visa', 'mada']
 CATEGORIES = ['standard', 'medium', 'vip']

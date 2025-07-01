@@ -8,7 +8,7 @@
   {
     "id": "2",
     "plate": "XYZ789",
-    "category": "SUV",
+    "category": "Accent",
     "status": "ready"
   },
   {
@@ -21,6 +21,6 @@
     "id": "4",
     "plate": "PQR321",
     "category": "luxury",
-    "status": "available"
+    "status": "ready"
   }
 ]

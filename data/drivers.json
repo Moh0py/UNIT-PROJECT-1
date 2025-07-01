@@ -6,7 +6,8 @@
     "role": "driver",
     "category": null,
     "rides": [],
-    "complaints": []
+    "complaints": [],
+    "car": null
   },
   {
     "username": "m",
@@ -18,7 +19,8 @@
       "ride_20250701180533",
       "ride_20250701184910"
     ],
-    "complaints": []
+    "complaints": [],
+    "car": null
   },
   {
     "username": "moh",
@@ -30,7 +32,8 @@
       "ride_20250701180533",
       "ride_20250701184910"
     ],
-    "complaints": []
+    "complaints": [],
+    "car": null
   },
   {
     "username": "ali1",
@@ -43,14 +46,16 @@
       "ride_20250701195353",
       "ride_20250701200514"
     ],
-    "complaints": []
+    "complaints": [],
+    "car": null
   },
   {
     "username": "p1",
     "password": "p1",
     "role": "driver",
-    "category": null,
+    "category": "standard",
     "rides": [],
-    "complaints": []
+    "complaints": [],
+    "car": null
   }
 ]

@@ -193,5 +193,47 @@
     "status": "booked",
     "rating": null,
     "timestamp": "2025-07-01T20:56:53.571236"
+  },
+  {
+    "id": "ride_20250701211237",
+    "user": "p2+",
+    "driver": "p1",
+    "origin": "Jazan,Saudi Arabia",
+    "destination": "Abah,Saudi Arabia",
+    "category": "standard",
+    "distance": 828,
+    "fare": 1242.0,
+    "payment_method": "mada",
+    "status": "booked",
+    "rating": null,
+    "timestamp": "2025-07-01T21:12:41.434662"
+  },
+  {
+    "id": "ride_20250701211549",
+    "user": "p2+",
+    "driver": "ali1",
+    "origin": "Jazan,Saudi Arabia",
+    "destination": "Samtah,Saudi Arabia",
+    "category": "standard",
+    "distance": 81,
+    "fare": 121.5,
+    "payment_method": "visa",
+    "status": "booked",
+    "rating": null,
+    "timestamp": "2025-07-01T21:15:53.884857"
+  },
+  {
+    "id": "ride_20250701222731",
+    "user": "P22",
+    "driver": "m",
+    "origin": "Jazan,Saudi ArabiA",
+    "destination": "Abah,Saudi Arabia",
+    "category": "standard",
+    "distance": 828,
+    "fare": 1242.0,
+    "payment_method": "cash",
+    "status": "booked",
+    "rating": 5,
+    "timestamp": "2025-07-01T22:27:33.562676"
   }
 ]
