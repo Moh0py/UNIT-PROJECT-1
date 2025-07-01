@@ -2,7 +2,7 @@ from booking import view_rides
 from utils import load_json, save_json, RIDES_FILE
 
 def rate_ride(user):
-    
+
     view_rides(user)
 
     
@@ -11,10 +11,10 @@ def rate_ride(user):
         print("❌ No ride ID entered.")
         return
 
-    
-    rides = load_json(RIDES_FILE)
-    
-    for r in rides:
+
+    drivers = load_json(RIDES_FILE)
+
+    for r in drivers:
         if r['id'] == ride_id and r['user'] == user['username']:
             
             try:
@@ -27,7 +27,7 @@ def rate_ride(user):
                 return
             
             r['rating'] = score
-            save_json(RIDES_FILE, rides)
+            save_json(RIDES_FILE, drivers)
             print("✅ Thank you for your rating!")
             return
 

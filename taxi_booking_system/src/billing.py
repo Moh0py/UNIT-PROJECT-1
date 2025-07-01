@@ -1,11 +1,21 @@
-from utils import calculate_distance, estimate_time, RATES
+from geopy.geocoders import Nominatim
+from geopy.distance import geodesic
 
-def calculate_fare():
-    o=input("Pickup:")
-    d=input("Destination:")
-    print("Rates:",RATES)
-    cat=input("Category:")
-    dist=calculate_distance(o,d)
-    if dist is None: return
-    t=estimate_time(dist); fare=dist*RATES.get(cat,0)
-    print(f"{dist}km | {t}min | {fare:.2f}SAR")
+geolocator = Nominatim(user_agent="my_app")
+
+def calculate_distance(origin: str, destination: str) -> float | None:
+    try:
+        loc1 = geolocator.geocode(origin, timeout=10)
+        loc2 = geolocator.geocode(destination, timeout=10)
+        if not loc1 or not loc2:
+            print(f"Error geocoding '{origin}' or '{destination}'")
+            return None
+
+        coords_1 = (loc1.latitude, loc1.longitude)
+        coords_2 = (loc2.latitude, loc2.longitude)
+        # Calculate geodesic distance in kilometers
+        dist_km = geodesic(coords_1, coords_2).km
+        return round(dist_km, 2)
+    except Exception as e:
+        print(f"Distance error: {e}")
+        return None

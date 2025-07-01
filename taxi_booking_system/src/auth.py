@@ -55,8 +55,8 @@ def edit_profile(user):
     new=input("New password (Enter to skip): ").strip()
     if new:
         user['password']=new; save_user(user); print("Password updated.")
-    else: print("No changes made.")
+    else: print("No changes password.")
     new=input("New username (Enter to skip): ").strip()
     if new:
         user['username']=new; save_user(user); print("Username updated.")
-    else: print("No changes made.")
+    else: print("No changes username.")

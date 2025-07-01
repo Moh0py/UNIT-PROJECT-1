@@ -7,5 +7,50 @@
     "category": null,
     "rides": [],
     "complaints": []
+  },
+  {
+    "username": "m",
+    "password": "123",
+    "role": "driver",
+    "category": "medium",
+    "rides": [
+      "ride_20250701174828",
+      "ride_20250701180533",
+      "ride_20250701184910"
+    ],
+    "complaints": []
+  },
+  {
+    "username": "moh",
+    "password": "123",
+    "role": "driver",
+    "category": "medium",
+    "rides": [
+      "ride_20250701174828",
+      "ride_20250701180533",
+      "ride_20250701184910"
+    ],
+    "complaints": []
+  },
+  {
+    "username": "ali1",
+    "password": "ali1",
+    "role": "driver",
+    "category": "standard",
+    "rides": [
+      "ride_20250701195251",
+      "ride_20250701195309",
+      "ride_20250701195353",
+      "ride_20250701200514"
+    ],
+    "complaints": []
+  },
+  {
+    "username": "p1",
+    "password": "p1",
+    "role": "driver",
+    "category": null,
+    "rides": [],
+    "complaints": []
   }
 ]
