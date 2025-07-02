@@ -8,12 +8,14 @@ from auth import save_user, load_drivers
 
 
 CAR_ART = r"""
-      ______
-  ___//_||_\\___
- / _          _ \\
-'(_)_        _(_)`
-   /_/      \\_\\
+         ______
+       //  ||\ \
+ _____//___||_\ \___
+ )  _          _    \
+ |_/ \________/ \___|
+___\_/________\_/______
 """
+
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')

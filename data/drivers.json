@@ -68,5 +68,13 @@
       "ride_20250701223137"
     ],
     "complaints": []
+  },
+  {
+    "username": "Mohammed Jabbari",
+    "password": "123",
+    "role": "driver",
+    "category": null,
+    "rides": [],
+    "complaints": []
   }
 ]

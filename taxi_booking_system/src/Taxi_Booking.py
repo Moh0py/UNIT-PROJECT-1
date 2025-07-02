@@ -6,6 +6,7 @@ from booking import select_category, estimate_ride, book_ride, view_rides
 from rating import rate_ride
 from complaint import file_complaint
 from admin import admin_menu
+from booking import CAR_ART
 from simulation import simulate_ascii_route  
 
 
@@ -13,16 +14,42 @@ colorama.init(autoreset=True)
 
 
 def print_box(title, opts, clr):
-    w = max(len(title), *(len(o) for o in opts)) + 4
-    print(clr + "╔" + "═" * w + "╗")
-    print(clr + f"║ {title.center(w-2)} ║")
-    print(clr + "╠" + "═" * w + "╣")
+    padding_top_bottom = 1
+    padding_left_right = 4
+
+    
+    content_width = max(
+        len(title),
+        *(len(o) for o in opts)
+    ) + padding_left_right * 2
+
+    
+    print(clr + "╔" + "═" * content_width + "╗")
+
+    
+    for _ in range(padding_top_bottom):
+        print(clr + "║" + " " * content_width + "║")
+
+    
+    title_line = title.center(content_width)
+    print(clr + f"║{title_line}║")
+
+    
+    for _ in range(padding_top_bottom):
+        print(clr + "║" + " " * content_width + "║")
+
+    print(clr + "╠" + "═" * content_width + "╣")
+
+    
     for o in opts:
-        print(clr + f"║ {o.ljust(w-2)} ║")
-    print(clr + "╚" + "═" * w + "╝" + Style.RESET_ALL)
+        line = o.center(content_width)
+        print(clr + f"║{line}║")
+
+    print(clr + "╚" + "═" * content_width + "╝" + Style.RESET_ALL)
 
 
 def user_menu(user):
+    print(CAR_ART)
     opts = [
         "1. Select category",
         "2. Estimate ride",
@@ -35,7 +62,7 @@ def user_menu(user):
     ]
     while True:
         print_box("User Menu", opts, Fore.YELLOW)
-        choice = input(Fore.CYAN + "Choice: " + Style.RESET_ALL).strip()
+        choice = input(Fore.YELLOW + "Choice: " + Style.RESET_ALL).strip()
 
         if choice == '1':
             select_category(user)
@@ -62,7 +89,9 @@ def user_menu(user):
 
         
 def main():
+
     ensure_data_files()
+    print(CAR_ART)
     # Ensure admin user exists
     if not find_user('admin'):
         save_user({
@@ -76,8 +105,8 @@ def main():
 
     opts = ["1. Register", "2. Login", "3. Admin login", "4. Exit"]
     while True:
-        print_box("Taxi Booking System", opts, Fore.CYAN)
-        choice = input(Fore.CYAN + "Choice: " + Style.RESET_ALL).strip()
+        print_box("Taxi Booking System", opts, Fore.YELLOW)
+        choice = input(Fore.YELLOW + "Choice: " + Style.RESET_ALL).strip()
         if choice == '1':
             user = register_user()
             if user:
