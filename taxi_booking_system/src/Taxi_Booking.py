@@ -2,7 +2,7 @@ import colorama
 from colorama import Fore, Style
 from utils import ensure_data_files
 from auth import register_user, login_user, find_user, save_user
-from booking import select_category, estimate_ride, book_ride, view_rides
+from booking import select_category, estimate_ride, book_ride, simulate_driver_arrival, view_rides
 from rating import rate_ride
 from complaint import file_complaint
 from admin import admin_menu
@@ -50,6 +50,7 @@ def print_box(title, opts, clr):
 
 def user_menu(user):
     print(CAR_ART)
+    print(f"Welcome, {user['username']}! You are logged in as a {user['role']}.")
     opts = [
         "1. Select category",
         "2. Estimate ride",
