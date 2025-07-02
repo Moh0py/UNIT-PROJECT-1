@@ -1,12 +1,13 @@
 from utils import load_json, save_json, USERS_FILE, DRIVERS_FILE
 
 
-def load_passengers(): return load_json(USERS_FILE)
+def load_passengers(): 
+    return load_json(USERS_FILE)
 
-def load_drivers():   return load_json(DRIVERS_FILE)
+def load_drivers(): 
+    return load_json(DRIVERS_FILE)
 
 def find_user(username):
-    """Search passengers+drivers."""
     for u in load_passengers() + load_drivers():
         if u['username'] == username:
             return u
@@ -14,7 +15,6 @@ def find_user(username):
 
 
 def save_user(user):
-    """Save to passengers.json or drivers.json."""
     target = DRIVERS_FILE if user['role']=='driver' else USERS_FILE
     users = load_json(target)
     for i,u in enumerate(users):
@@ -53,10 +53,19 @@ def login_user():
 def edit_profile(user):
     print("Edit Profile:")
     new=input("New password (Enter to skip): ").strip()
-    if new:
-        user['password']=new; save_user(user); print("Password updated.")
+    try:
+        if new:
+            user['password']=new; save_user(user); print("Password updated.")
+    except Exception as e:
+        print(f"Error updating password: {e}")
+        return
     else: print("No changes password.")
+    
     new=input("New username (Enter to skip): ").strip()
-    if new:
-        user['username']=new; save_user(user); print("Username updated.")
+    try:
+        if new:
+            user['username']=new; save_user(user); print("Username updated.")
+    except Exception as e:
+        print(f"Error updating username: {e}")
+        return
     else: print("No changes username.")

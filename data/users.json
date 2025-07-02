@@ -177,8 +177,10 @@
     "username": "",
     "password": "",
     "role": "passenger",
-    "category": null,
-    "rides": [],
+    "category": "standard",
+    "rides": [
+      "ride_20250702101505"
+    ],
     "complaints": []
   },
   {
@@ -189,6 +191,111 @@
     "rides": [
       "ride_20250702083807",
       "ride_20250702083843"
+    ],
+    "complaints": []
+  },
+  {
+    "username": "hassan",
+    "password": "1234",
+    "role": "passenger",
+    "category": "medium",
+    "rides": [
+      "ride_20250702094936"
+    ],
+    "complaints": []
+  },
+  {
+    "username": "Mohammed Jabbari2",
+    "password": "12345",
+    "role": "passenger",
+    "category": "standard",
+    "rides": [
+      "ride_20250702125836",
+      "ride_20250702125949"
+    ],
+    "complaints": []
+  },
+  {
+    "username": "naif",
+    "password": "11223344",
+    "role": "passenger",
+    "category": "standard",
+    "rides": [
+      "ride_20250702130331"
+    ],
+    "complaints": []
+  },
+  {
+    "username": "na",
+    "password": "11223344",
+    "role": "passenger",
+    "category": "medium",
+    "rides": [
+      "ride_20250702130331"
+    ],
+    "complaints": []
+  },
+  {
+    "username": "m00",
+    "password": "m00",
+    "role": "passenger",
+    "category": "standard",
+    "rides": [
+      "ride_20250702131857"
+    ],
+    "complaints": []
+  },
+  {
+    "username": "m77",
+    "password": "m77",
+    "role": "passenger",
+    "category": "medium",
+    "rides": [
+      "ride_20250702135527"
+    ],
+    "complaints": []
+  },
+  {
+    "username": "test1",
+    "password": "12345",
+    "role": "passenger",
+    "category": "standard",
+    "rides": [
+      "ride_20250702162821"
+    ],
+    "complaints": []
+  },
+  {
+    "username": "test2",
+    "password": "1234",
+    "role": "passenger",
+    "category": "medium",
+    "rides": [
+      "ride_20250702163241"
+    ],
+    "complaints": []
+  },
+  {
+    "username": "m000",
+    "password": "m000",
+    "role": "passenger",
+    "category": "vip",
+    "rides": [
+      "ride_20250702165204",
+      "ride_20250702165623",
+      "ride_20250702165926",
+      "ride_20250702172041"
+    ],
+    "complaints": []
+  },
+  {
+    "username": "mk",
+    "password": "mk",
+    "role": "passenger",
+    "category": "standard",
+    "rides": [
+      "ride_20250702171943",
+      "ride_20250702172147"
     ],
     "complaints": []
   }

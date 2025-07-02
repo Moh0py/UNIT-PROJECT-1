@@ -11,7 +11,7 @@ from simulation import simulate_ascii_route
 
 
 colorama.init(autoreset=True)
-
+print(CAR_ART)
 
 def print_box(title, opts, clr):
     padding_top_bottom = 1
@@ -92,8 +92,6 @@ def user_menu(user):
 def main():
 
     ensure_data_files()
-    print(CAR_ART)
-    
     if not find_user('admin'):
         save_user({
             'username': 'admin',
@@ -127,7 +125,6 @@ def main():
         elif choice == '4':
             print("Thank you for using the Taxi Booking System!")
             break
-
 
 if __name__ == '__main__':
     main()

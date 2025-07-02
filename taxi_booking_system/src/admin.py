@@ -2,7 +2,7 @@ import colorama
 from colorama import Fore, Style
 from utils import load_json, save_json, CARS_FILE, RIDES_FILE, COMPLAINTS_FILE
 
-# Initialize Colorama for colored output
+
 colorama.init(autoreset=True)
 
 def print_box(title, opts, clr):
@@ -40,7 +40,7 @@ def print_box(title, opts, clr):
     print(clr + "╚" + "═" * content_width + "╝" + Style.RESET_ALL)
 
 def view_drivers():
-    """Display drivers sorted by average rating."""
+    
     rides = load_json(RIDES_FILE)
     scores = {}
     for r in rides:
@@ -60,7 +60,7 @@ def view_drivers():
 
 
 def view_cars():
-    """Display list of cars and their statuses."""
+    
     cars = load_json(CARS_FILE)
     if not cars:
         print("No cars available.\n")
@@ -78,7 +78,7 @@ def view_cars():
 
 
 def view_complaints():
-    """Display all submitted complaints."""
+
     comps = load_json(COMPLAINTS_FILE)
     if not comps:
         print("No complaints.\n")
@@ -96,7 +96,7 @@ def view_complaints():
 
 
 def edit_car_status():
-    """Change the status (ready/busy) of a car."""
+    
     cars = load_json(CARS_FILE)
     if not cars:
         print("No cars available.\n")
@@ -116,7 +116,7 @@ def edit_car_status():
 
 
 def delete_ride():
-    """Remove a ride record from the system."""
+    
     rides = load_json(RIDES_FILE)
     if not rides:
         print("No rides to delete.\n")

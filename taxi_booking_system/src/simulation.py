@@ -1,11 +1,10 @@
 import time
-import argparse
 from asciimatics.screen import Screen
 from geopy.geocoders import Nominatim
 
 
 def get_coordinates(place, geolocator):
-    """Geocode a place name into (latitude, longitude)."""
+    
     location = geolocator.geocode(place)
     if not location:
         raise ValueError(f"Cannot geocode: '{place}'")
@@ -13,7 +12,7 @@ def get_coordinates(place, geolocator):
 
 
 def interpolate(route_coords, steps):
-    """Generate intermediate points between waypoints."""
+
     points = []
     for i in range(len(route_coords) - 1):
         lat1, lon1 = route_coords[i]
@@ -28,7 +27,7 @@ def interpolate(route_coords, steps):
 
 
 def map_to_grid(latlon_points, width, height):
-    """Normalize lat/lon to fit an ASCII grid."""
+    
     lats = [pt[0] for pt in latlon_points]
     lons = [pt[1] for pt in latlon_points]
     min_lat, max_lat = min(lats), max(lats)
@@ -42,7 +41,7 @@ def map_to_grid(latlon_points, width, height):
 
 
 def simulate(screen, grid_points):
-    """Draw and animate the driver on an ASCII grid."""
+    
     w, h = min(screen.width, 80), min(screen.height, 24)
     for idx, (x, y) in enumerate(grid_points):
         screen.clear()
@@ -60,7 +59,6 @@ def simulate(screen, grid_points):
 
 
 def simulate_ascii_route(places, steps=10):
-    """Main entry point: geocode, interpolate, map, and animate."""
     if not places:
         raise ValueError("No places provided for simulation.")
     if steps <= 0:
