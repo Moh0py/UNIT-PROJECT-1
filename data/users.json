@@ -164,10 +164,32 @@
   },
   {
     "username": "p22",
-    "password": "p22",
+    "password": "p0",
+    "role": "passenger",
+    "category": "standard",
+    "rides": [
+      "ride_20250702083807",
+      "ride_20250702083843"
+    ],
+    "complaints": []
+  },
+  {
+    "username": "",
+    "password": "",
     "role": "passenger",
     "category": null,
     "rides": [],
+    "complaints": []
+  },
+  {
+    "username": "p0",
+    "password": "p0",
+    "role": "passenger",
+    "category": "standard",
+    "rides": [
+      "ride_20250702083807",
+      "ride_20250702083843"
+    ],
     "complaints": []
   }
 ]

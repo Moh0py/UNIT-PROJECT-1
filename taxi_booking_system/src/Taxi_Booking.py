@@ -92,7 +92,7 @@ def main():
 
     ensure_data_files()
     print(CAR_ART)
-    # Ensure admin user exists
+    
     if not find_user('admin'):
         save_user({
             'username': 'admin',

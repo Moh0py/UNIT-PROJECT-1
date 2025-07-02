@@ -1,26 +1,43 @@
-# admin.py
-
 import colorama
 from colorama import Fore, Style
 from utils import load_json, save_json, CARS_FILE, RIDES_FILE, COMPLAINTS_FILE
 
-# Initialize Colorama for colored output\ ncolorama.init(autoreset=True)
+# Initialize Colorama for colored output
+colorama.init(autoreset=True)
 
-def print_box(title, options, color):
-    """Draw a colored box with a title and options list."""
-    width = max(len(title), *(len(opt) for opt in options)) + 4
-    # Top border
-    print(color + "╔" + "═"*width + "╗")
-    # Title centered
-    print(color + f"║ {title.center(width-2)} ║")
-    # Separator
-    print(color + "╠" + "═"*width + "╣")
-    # Options
-    for opt in options:
-        print(color + f"║ {opt.ljust(width-2)} ║")
+def print_box(title, opts, clr):
+    padding_top_bottom = 1
+    padding_left_right = 4
+
     
-    print(color + "╚" + "═"*width + "╝" + Style.RESET_ALL)
+    content_width = max(
+        len(title),
+        *(len(o) for o in opts)
+    ) + padding_left_right * 2
 
+    
+    print(clr + "╔" + "═" * content_width + "╗")
+
+    
+    for _ in range(padding_top_bottom):
+        print(clr + "║" + " " * content_width + "║")
+
+    
+    title_line = title.center(content_width)
+    print(clr + f"║{title_line}║")
+
+    
+    for _ in range(padding_top_bottom):
+        print(clr + "║" + " " * content_width + "║")
+
+    print(clr + "╠" + "═" * content_width + "╣")
+
+    
+    for o in opts:
+        line = o.center(content_width)
+        print(clr + f"║{line}║")
+
+    print(clr + "╚" + "═" * content_width + "╝" + Style.RESET_ALL)
 
 def view_drivers():
     """Display drivers sorted by average rating."""
@@ -52,10 +69,11 @@ def view_cars():
     print("\nCars:")
     for c in cars:
         cid    = c.get('id', 'N/A')
+        driver = c.get('driver', 'N/A')
         plate  = c.get('plate', 'N/A')
         cat    = c.get('category', 'N/A')
         status = c.get('status', 'N/A')
-        print(f"  {cid} | {plate} | {cat} | {status}")
+        print(f"  {cid} | {driver} | {plate} | {cat} | {status}")
     print()
 
 
@@ -91,7 +109,7 @@ def edit_car_status():
     if not sel.isdigit() or not (1 <= int(sel) <= len(cars)):
         print("Invalid selection.\n")
         return
-    new_status = input("New status (ready/busy): ").strip().lower()
+    new_status = input("New status (ready/busy or etc.): ").strip().lower()
     cars[int(sel)-1]['status'] = new_status
     save_json(CARS_FILE, cars)
     print("Car status updated.\n")

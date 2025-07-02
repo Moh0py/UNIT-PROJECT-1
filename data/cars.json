@@ -1,26 +1,30 @@
 [
   {
     "id": "1",
+     "driver": "Mohammed Ali",
     "plate": "ABC123",
     "category": "sedan",
     "status": "ready"
   },
   {
     "id": "2",
+    "driver": "Salman Khan",
     "plate": "XYZ789",
     "category": "Accent",
     "status": "ready"
   },
   {
     "id": "3",
+    "driver": "Ali Rehman",
     "plate": "LMN456",
     "category": "hatchback",
     "status": "available"
   },
   {
     "id": "4",
+    "driver": "Ahmad Khan",
     "plate": "PQR321",
     "category": "luxury",
-    "status": "ready"
+    "status": "busy"
   }
 ]

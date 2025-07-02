@@ -235,5 +235,19 @@
     "status": "booked",
     "rating": 5,
     "timestamp": "2025-07-01T22:27:33.562676"
+  },
+  {
+    "id": "ride_20250702083807",
+    "user": "p22",
+    "driver": "p1",
+    "origin": "Madinah,Saudi Arabia",
+    "destination": "Jazan,Saudi Arabia",
+    "category": "standard",
+    "distance": 852,
+    "fare": 1278.0,
+    "payment_method": "mada",
+    "status": "booked",
+    "rating": null,
+    "timestamp": "2025-07-02T08:38:14.019285"
   }
 ]
